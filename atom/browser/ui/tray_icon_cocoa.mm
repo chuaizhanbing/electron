@@ -20,6 +20,10 @@ TrayIconCocoa::TrayIconCocoa() {
   NSStatusItem* item = [[NSStatusBar systemStatusBar]
       statusItemWithLength:NSVariableStatusItemLength];
   status_item_.reset([item retain]);
+
+  // Set event handlers.
+  // [[item button] setTarget:self];
+  // [[item button] setAction:@selector(myMethodToCallOnClick:)];
 }
 
 TrayIconCocoa::~TrayIconCocoa() {
