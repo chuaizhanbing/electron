@@ -16,13 +16,10 @@ namespace atom {
 TrayIconCocoa::TrayIconCocoa() {
   LOG(INFO) << "TrayIconCocoa()";
 
-  // Create status bar item
+  // Create status bar item.
   NSStatusItem* item = [[NSStatusBar systemStatusBar]
       statusItemWithLength:NSVariableStatusItemLength];
   status_item_.reset([item retain]);
-
-  [[status_item_ button]
-      setImagePosition:NSImageLeft];  // place text next to icon
 }
 
 TrayIconCocoa::~TrayIconCocoa() {
@@ -44,6 +41,13 @@ void TrayIconCocoa::SetToolTip(const std::string& tool_tip) {
 
 void TrayIconCocoa::SetTitle(const std::string& title) {
   [[status_item_ button] setTitle:base::SysUTF8ToNSString(title)];
+
+  // Fix icon margins.
+  if (title.empty()) {
+    [[status_item_ button] setImagePosition:NSImageOnly];
+  } else {
+    [[status_item_ button] setImagePosition:NSImageLeft];
+  }
 }
 
 std::string TrayIconCocoa::GetTitle() {
@@ -53,6 +57,7 @@ std::string TrayIconCocoa::GetTitle() {
 void TrayIconCocoa::SetHighlightMode(TrayIcon::HighlightMode mode) {
   LOG(INFO) << "SetHighlightMode()";
 
+  // [[status_item_ button] setHighlight:YES];
   // [[status_item_ button] setHighlightMode:mode];
 }
 
